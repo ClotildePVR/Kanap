@@ -26,7 +26,7 @@ function displayProducts(products) {
         document.getElementById("items").innerHTML += 
         `<a href="./product.html?id=${products[product]._id}">          
             <article>
-                <img src="${products[product].imageUrl}"" alt="${products[product].altTxt}">
+                <img src="${products[product].imageUrl}" alt="${products[product].altTxt}">
                 <h3 class="productName">${products[product].name}</h3>
                 <p class="productDescription">${products[product].description}</p>
             </article>
