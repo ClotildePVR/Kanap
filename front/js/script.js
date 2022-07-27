@@ -22,13 +22,14 @@ function getProducts() {
 
 // Affichage des produits dans la page d'accueil
 function displayProducts(products) {
-    for (let product in products) {
+    for (let product of products) {
+        // TODO: retirer innerHTML
         document.getElementById("items").innerHTML += 
-        `<a href="./product.html?id=${products[product]._id}">          
+        `<a href="./product.html?id=${product._id}">          
             <article>
-                <img src="${products[product].imageUrl}" alt="${products[product].altTxt}">
-                <h3 class="productName">${products[product].name}</h3>
-                <p class="productDescription">${products[product].description}</p>
+                <img src="${product.imageUrl}" alt="${product.altTxt}">
+                <h3 class="productName">${product.name}</h3>
+                <p class="productDescription">${product.description}</p>
             </article>
         </a>`;
         }
