@@ -2,7 +2,6 @@ items();
 
 async function items() {
     const products = await getProducts()
-    console.log(products)
     displayProducts(products)
 }
 
@@ -23,14 +22,33 @@ function getProducts() {
 // Affichage des produits dans la page d'accueil
 function displayProducts(products) {
     for (let product of products) {
-        // TODO: retirer innerHTML
-        document.getElementById("items").innerHTML += 
-        `<a href="./product.html?id=${product._id}">          
-            <article>
-                <img src="${product.imageUrl}" alt="${product.altTxt}">
-                <h3 class="productName">${product.name}</h3>
-                <p class="productDescription">${product.description}</p>
-            </article>
-        </a>`;
+        
+        //Lien vers page produit
+        const productLink = document.createElement("a");
+        let sectionItems = document.getElementById("items")
+        sectionItems.appendChild(productLink);
+        productLink.href = `./product.html?id=${product._id}`;
+
+        //Article
+        const productArticle = document.createElement("article");
+        productLink.appendChild(productArticle);
+
+        //Image
+        const productImg = document.createElement("img");
+        productArticle.appendChild(productImg);
+        productImg.src = product.imageUrl;
+        productImg.alt = product.altTxt;
+
+        //Titre
+        const productName = document.createElement("h3");
+        productArticle.appendChild(productName);
+        productName.classList.add("productName");
+        productName.innerHTML = product.name;
+
+        //Description
+        const productDescription = document.createElement("p");
+        productArticle.appendChild(productDescription);
+        productDescription.classList.add("productDescription");
+        productDescription.innerHTML = product.description;
         }
     }
