@@ -55,7 +55,7 @@ function selectedProduct(product) {
 }
 
 // Ajouter le produit au panier
-function registredProduct (product) {
+function registredProduct (basket) {
     
     // Ecouter l'évènement au click du bouton "ajouter au panier"
     addToCartBtn.addEventListener("click", (event) => {
@@ -82,7 +82,7 @@ function registredProduct (product) {
             };
             
             // Initialiser le local storage
-            let productLocalStorage = JSON.parse(localStorage.getItem("product"));
+            let productLocalStorage = JSON.parse(localStorage.getItem("basket"));
 
             // Envoyer les informations du produit dans le local storage
             if (productLocalStorage) {
@@ -96,14 +96,14 @@ function registredProduct (product) {
                 let newQuantity =
                 parseInt(productInformations.productQuantity) + parseInt(resultFound.productQuantity);
                 resultFound.productQuantity = newQuantity;
-                localStorage.setItem("product", JSON.stringify(productLocalStorage));
+                localStorage.setItem("basket", JSON.stringify(productLocalStorage));
                 console.table(productLocalStorage);
                 }
             
                 // Si le produit dans le panier est une autre référence : ajout du produit demandé au panier
                 else {
                 productLocalStorage.push(productInformations);
-                localStorage.setItem("product", JSON.stringify(productLocalStorage));
+                localStorage.setItem("basket", JSON.stringify(productLocalStorage));
                 console.table(productLocalStorage);
                 }
             }
@@ -112,7 +112,7 @@ function registredProduct (product) {
             else {
                 productLocalStorage = [];
                 productLocalStorage.push(productInformations);
-                localStorage.setItem("product", JSON.stringify(productLocalStorage));
+                localStorage.setItem("basket", JSON.stringify(productLocalStorage));
                 console.table(productLocalStorage);
             }
             }
