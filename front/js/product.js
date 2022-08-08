@@ -63,12 +63,14 @@ function registredProduct (product) {
 
         if (colorSelection.value == false) {
             confirm("Veuillez sélectionner une couleur");
-        } else if (productQuantity.value == 0) {
+        } 
+        else if (productQuantity.value == 0) {
             confirm("Veuillez sélectionner le nombre d'articles souhaité");
-        } else {
+        } 
+        else {
             alert("Votre article a bien été ajouté au panier");
         
-        if (productQuantity.value >= 1 && productQuantity.value <= 100) {
+            if (productQuantity.value >= 1 && productQuantity.value <= 100) {
             
             // Récupérer les informations du produit à ajouter au panier
             let colorChoice = colorSelection.value;
@@ -82,37 +84,38 @@ function registredProduct (product) {
             // Initialiser le local storage
             let productLocalStorage = JSON.parse(localStorage.getItem("product"));
 
-        // Envoyer les informations du produit dans le local storage
-        if (productLocalStorage) {
+            // Envoyer les informations du produit dans le local storage
+            if (productLocalStorage) {
+                
+            // Si le panier contient déjà un produit
+            const resultFound = productLocalStorage.find(
+                (element) => element.productId === id && element.productColor === colorChoice);
             
-        // Si le panier contient déjà un produit
-        const resultFound = productLocalStorage.find(
-            (element) => element.productId === id && element.productColor === colorChoice);
-        
-        // Si le produit dans le panier est le même que celui à ajouter : MAJ de la quantité
-            if (resultFound) {
-            let newQuantity =
-            parseInt(productInformations.productQuantity) + parseInt(resultFound.productQuantity);
-            resultFound.productQuantity = newQuantity;
-            localStorage.setItem("product", JSON.stringify(productLocalStorage));
-            console.table(productLocalStorage);
+                // Si le produit dans le panier est le même que celui à ajouter : MAJ de la quantité
+                if (resultFound) {
+                let newQuantity =
+                parseInt(productInformations.productQuantity) + parseInt(resultFound.productQuantity);
+                resultFound.productQuantity = newQuantity;
+                localStorage.setItem("product", JSON.stringify(productLocalStorage));
+                console.table(productLocalStorage);
+                }
+            
+                // Si le produit dans le panier est une autre référence : ajout du produit demandé au panier
+                else {
+                productLocalStorage.push(productInformations);
+                localStorage.setItem("product", JSON.stringify(productLocalStorage));
+                console.table(productLocalStorage);
+                }
             }
-        
-        // Si le produit dans le panier est une autre référence : ajout du produit demandé au panier
-            else {
-            productLocalStorage.push(productInformations);
-            localStorage.setItem("product", JSON.stringify(productLocalStorage));
-            console.table(productLocalStorage);
-            }
-        }
 
-        // Si le panier est vide : initier le panier
-        else {
-            productLocalStorage = [];
-            productLocalStorage.push(productInformations);
-            localStorage.setItem("product", JSON.stringify(productLocalStorage));
-            console.table(productLocalStorage);
-        }}
+            // Si le panier est vide : initier le panier
+            else {
+                productLocalStorage = [];
+                productLocalStorage.push(productInformations);
+                localStorage.setItem("product", JSON.stringify(productLocalStorage));
+                console.table(productLocalStorage);
+            }
+            }
         }
     });
 }
