@@ -2,9 +2,6 @@
 let productLocalStorage = JSON.parse(localStorage.getItem("basket"));
 console.table(productLocalStorage);
 
-// Définir l'emplacement du panier dans la page HTML
-let basketLocation = document.getElementById("cart__items");
-
 // Récupérer les produit et leurs détails depuis l'API
 fetch("http://localhost:3000/api/products/")    
     .then(function(res) {
@@ -12,12 +9,18 @@ fetch("http://localhost:3000/api/products/")
     })
     .then(function(product) {
         displayBasket(product);
+        showTotalQuantity();
+        showTotalPrice();
     })
     .catch (function(error) {
         alert(error);
         console.log("erreur");
     });
 
+// Définir l'emplacement du panier dans la page HTML
+let basketLocation = document.getElementById("cart__items");
+
+//Afficher les produits dans le panier
 function displayBasket(product) {
     
     // Si le localstorage est vide
@@ -117,3 +120,35 @@ function displayBasket(product) {
     }
 }
 
+// Afficher la quantité totale de produits dans le panier
+function showTotalQuantity() {
+    const itemsQuantity = document.getElementsByClassName("itemQuantity");
+    const basketLength = itemsQuantity.length;
+    totalQuantity = 0;
+
+    for (var i = 0; i < basketLength; ++i) {
+        totalQuantity += itemsQuantity[i].valueAsNumber;
+    }
+
+    let showTotalQuantity = document.getElementById("totalQuantity");
+    showTotalQuantity.innerHTML = totalQuantity;    
+}
+
+// Afficher le prix total de produits dans le panier
+function showTotalPrice() {
+    const itemsQuantity = document.getElementsByClassName("itemQuantity");
+    const basketLength = itemsQuantity.length;
+    totalPrice = 0;
+
+    console.log(itemsQuantity);
+    console.log(basketLength);
+
+    
+
+    for (var i = 0; i < basketLength; ++i) {
+        /*totalPrice += ;*/
+    }
+
+    let showTotalPrice = document.getElementById("totalPrice");
+    showTotalPrice.innerHTML = totalPrice;    
+}
