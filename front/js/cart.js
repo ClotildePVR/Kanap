@@ -45,7 +45,7 @@ function displayBasket(product) {
             // Div Image
             const ImgDiv = document.createElement("div");
             productArticle.appendChild(ImgDiv);
-            ImgDiv.className = "carte__item__img";
+            ImgDiv.className = "cart__item__img";
 
             // Image
             const productImg = document.createElement("img");
@@ -76,7 +76,7 @@ function displayBasket(product) {
             // Prix
             const productPrice = document.createElement("p");
             descriptionDiv.appendChild(productPrice);
-            productPrice.innerHTML = APIProduct.price;
+            productPrice.innerHTML = `${APIProduct.price} €`;
 
             // Div réglages
             const settingsDiv = document.createElement("div");
@@ -116,5 +116,4 @@ function displayBasket(product) {
         }
     }
 }
-
 
