@@ -43,7 +43,8 @@ function displayBasket(product) {
             const productArticle = document.createElement("article");
             basketLocation.appendChild(productArticle);
             productArticle.className = "cart__item";
-            productArticle.setAttribute("data-id", lsProduct.productId);
+            productArticle.dataset.id = lsProduct.productId;
+            productArticle.dataset.color = lsProduct.productColor;
 
             // Div Image
             const ImgDiv = document.createElement("div");
@@ -106,6 +107,8 @@ function displayBasket(product) {
             quantityInput.setAttribute("max", "100");
             quantityInput.setAttribute("value", lsProduct.productQuantity);
 
+            // écoute changement quantité
+
             // Div suppression
             const deleteDiv = document.createElement("div");
             settingsDiv.appendChild(deleteDiv);
@@ -116,6 +119,8 @@ function displayBasket(product) {
             deleteDiv.appendChild(deleteProduct);
             deleteProduct.className = "deleteItem";
             deleteProduct.textContent = "Supprimer";
+
+            // écoute suppression produit
         }
     }
 }
@@ -136,17 +141,13 @@ function showTotalQuantity() {
 
 // Afficher le prix total de produits dans le panier
 function showTotalPrice() {
-    const itemsQuantity = document.getElementsByClassName("itemQuantity");
-    const basketLength = itemsQuantity.length;
-    totalPrice = 0;
+    let totalPrice = 0; 
 
-    console.log(itemsQuantity);
-    console.log(basketLength);
-
-    
-
-    for (var i = 0; i < basketLength; ++i) {
-        /*totalPrice += ;*/
+    for (let basket in productLocalStorage) {
+        const lsProduct = productLocalStorage[basket];
+        let quantity = lsProduct.productQuantity;
+        let price = parseInt(document.querySelector(`article[data-id="${lsProduct.productId}"][data-color="${lsProduct.productColor}"] .cart__item__content__description :nth-child(3)`).textContent);
+        totalPrice += quantity * price;
     }
 
     let showTotalPrice = document.getElementById("totalPrice");
