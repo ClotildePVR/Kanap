@@ -121,6 +121,16 @@ function displayBasket(product) {
             deleteProduct.textContent = "Supprimer";
 
             // écoute suppression produit
+                deleteProduct.addEventListener("click", (event) => {
+                    let idDelete = lsProduct.productId;
+                    let colorDelete = lsProduct.productColor;
+                    productLocalStorage = productLocalStorage.filter( el => el.productId !== idDelete || el.productColor !== colorDelete );
+                    localStorage.setItem("basket", JSON.stringify(productLocalStorage));
+                    alert("Ce produit a bien été supprimé du panier.");
+                    location.reload();
+                }
+            )
+            
         }
     }
 }
