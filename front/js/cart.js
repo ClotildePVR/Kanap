@@ -107,7 +107,16 @@ function displayBasket(product) {
             quantityInput.setAttribute("max", "100");
             quantityInput.setAttribute("value", lsProduct.productQuantity);
 
-            // écoute changement quantité
+            // Fonction de changement de la quantité d'un produit
+            quantityInput.addEventListener("change", (event) => {
+                let selectedQuantity = lsProduct.productQuantity;
+                let modifiedQuantity = quantityInput.valueAsNumber;
+                const resultFound = productLocalStorage.find( el => el.modifiedQuantity !== selectedQuantity);
+                resultFound.productQuantity = modifiedQuantity;
+                lsProduct.productQuantity = resultFound.productQuantity;
+                localStorage.setItem("basket", JSON.stringify(productLocalStorage));
+                location.reload();
+            })
 
             // Div suppression
             const deleteDiv = document.createElement("div");
@@ -120,17 +129,15 @@ function displayBasket(product) {
             deleteProduct.className = "deleteItem";
             deleteProduct.textContent = "Supprimer";
 
-            // écoute suppression produit
-                deleteProduct.addEventListener("click", (event) => {
-                    let idDelete = lsProduct.productId;
-                    let colorDelete = lsProduct.productColor;
-                    productLocalStorage = productLocalStorage.filter( el => el.productId !== idDelete || el.productColor !== colorDelete );
-                    localStorage.setItem("basket", JSON.stringify(productLocalStorage));
-                    alert("Ce produit a bien été supprimé du panier.");
-                    location.reload();
-                }
-            )
-            
+            // Fonction de suppression d'un produit
+            deleteProduct.addEventListener("click", (event) => {
+                let idDelete = lsProduct.productId;
+                let colorDelete = lsProduct.productColor;
+                productLocalStorage = productLocalStorage.filter( el => el.productId !== idDelete || el.productColor !== colorDelete );
+                localStorage.setItem("basket", JSON.stringify(productLocalStorage));
+                alert("Ce produit a bien été supprimé du panier.");
+                location.reload();
+            })
         }
     }
 }
