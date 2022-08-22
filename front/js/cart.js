@@ -20,7 +20,7 @@ fetch("http://localhost:3000/api/products/")
 // Définir l'emplacement du panier dans la page HTML
 let basketLocation = document.getElementById("cart__items");
 
-//Afficher les produits dans le panier
+// Afficher les produits dans le panier
 function displayBasket(product) {
     
     // Si le localstorage est vide
@@ -170,3 +170,69 @@ function showTotalPrice() {
     let showTotalPrice = document.getElementById("totalPrice");
     showTotalPrice.innerHTML = totalPrice;    
 }
+
+// FORMULAIRE
+// Récupérer les données du formulaire
+let formDatas = {
+    firstName: document.getElementById("firstName"),
+    lastName: document.getElementById("lastName"),
+    address: document.getElementById("address"),
+    city: document.getElementById("city"),
+    email: document.getElementById("email"),
+}
+
+// Etablir les REGEX pour validation des données saisies par l'utilisateur
+let charactersRegex = new RegExp("^[a-zA-Zéèà' -]+$");
+let addressRegex = new RegExp("^[0-9]{1,3}[,. ]{1,2}[a-zA-Zàâäéèêëïîôöùûüç' -]+$");
+let emailRegex = new RegExp("^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,3}$");
+
+// Validation du prénom
+firstName.addEventListener('change', function() {
+    let firstNameError = firstName.nextElementSibling;
+    if (charactersRegex.test(firstName.value)) {
+        firstNameError.textContent = "";
+    } else {
+        firstNameError.textContent = "Veuillez renseigner ce champs (caractères autorisés : minuscules, masjuscules, é, è, à, ', -)";
+    }
+});
+
+// Validation du nom
+lastName.addEventListener('change', function() {
+    let lastNameError = lastName.nextElementSibling;
+    if (charactersRegex.test(lastName.value)) {
+        lastNameError.textContent = "";
+    } else {
+        lastNameError.textContent = "Veuillez renseigner ce champs (caractères autorisés : minuscules, masjuscules, é, è, à, ', -)";
+    }
+});
+
+// Validation de l'adresse
+address.addEventListener('change', function() {
+    let addressError = address.nextElementSibling;
+    if (addressRegex.test(address.value)) {
+        addressError.textContent = "";
+    } else {
+        addressError.textContent = "Veuillez renseigner ce champs (n°, rue)";
+    }
+});
+
+// Validation de la ville
+city.addEventListener('change', function() {
+    let cityError = city.nextElementSibling;
+    if (charactersRegex.test(city.value)) {
+        cityError.textContent = "";
+    } else {
+        cityError.textContent = "Veuillez renseigner ce champs (caractères autorisés : minuscules, masjuscules, é, è, à, ', -)";
+    }
+});
+
+// Validation de l'email
+email.addEventListener('change', function() {
+    let emailError = email.nextElementSibling;
+    if (emailRegex.test(email.value)) {
+        emailError.textContent = "";
+    } else {
+        emailError.textContent = "Veuillez renseigner votre adresse email";
+    }
+});
+
