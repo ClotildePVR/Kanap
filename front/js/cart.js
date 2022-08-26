@@ -247,7 +247,7 @@ email.addEventListener('change', function() {
     }
 });
 
-// Envoyer les données saisies par l'utilisateur au local storage
+// Envoyer les données saisies par l'utilisateur pour passer la commande
 function postForm() {
     const orderForm = document.getElementsByClassName("cart__order__form")[0];
     orderForm.addEventListener("submit", (event) => {
