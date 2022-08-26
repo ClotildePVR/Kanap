@@ -11,6 +11,7 @@ fetch("http://localhost:3000/api/products/")
         displayBasket(product);
         showTotalQuantity();
         showTotalPrice();
+        postForm();
     })
     .catch (function(error) {
         alert(error);
@@ -32,8 +33,6 @@ function displayBasket(product) {
     
     // Si des produits sont présents dans le localstorage
     else {
-        console.log("Il y a des produits dans le panier");
-
         // Boucle pour affichage des détails des produits, depuis API et depuis local storage
         for (let basket in productLocalStorage) {
             const lsProduct = productLocalStorage[basket];
@@ -109,13 +108,23 @@ function displayBasket(product) {
 
             // Fonction de changement de la quantité d'un produit
             quantityInput.addEventListener("change", (event) => {
-                let selectedQuantity = lsProduct.productQuantity;
                 let modifiedQuantity = quantityInput.valueAsNumber;
-                const resultFound = productLocalStorage.find( el => el.modifiedQuantity !== selectedQuantity);
-                resultFound.productQuantity = modifiedQuantity;
-                lsProduct.productQuantity = resultFound.productQuantity;
+                let idDelete = lsProduct.productId;
+                let colorDelete = lsProduct.productColor;
+                const resultFound = productLocalStorage.find( el => {
+                    return el.productId === lsProduct.productId && el.productColor === lsProduct.productColor
+                });
+                if ( modifiedQuantity < 1 ) {
+                    productLocalStorage = productLocalStorage.filter( el => el.productId !== idDelete || el.productColor !== colorDelete );
+                    alert("Ce produit a bien été supprimé du panier.");
+                    productArticle.remove();
+                } else {
+                    resultFound.productQuantity = modifiedQuantity;
+                    lsProduct.productQuantity = resultFound.productQuantity;
+                }
                 localStorage.setItem("basket", JSON.stringify(productLocalStorage));
-                location.reload();
+                showTotalQuantity();
+                showTotalPrice();
             })
 
             // Div suppression
@@ -136,7 +145,9 @@ function displayBasket(product) {
                 productLocalStorage = productLocalStorage.filter( el => el.productId !== idDelete || el.productColor !== colorDelete );
                 localStorage.setItem("basket", JSON.stringify(productLocalStorage));
                 alert("Ce produit a bien été supprimé du panier.");
-                location.reload();
+                productArticle.remove();
+                showTotalQuantity();
+                showTotalPrice();
             })
         }
     }
@@ -232,7 +243,58 @@ email.addEventListener('change', function() {
     if (emailRegex.test(email.value)) {
         emailError.textContent = "";
     } else {
-        emailError.textContent = "Veuillez renseigner votre adresse email";
+        emailError.textContent = "Veuillez renseigner votre adresse email, ex : exemple@contact.fr";
     }
 });
 
+// Envoyer les données saisies par l'utilisateur au local storage
+function postForm() {
+    const orderForm = document.getElementsByClassName("cart__order__form")[0];
+    orderForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        let idProducts = [];
+        for (let basket in productLocalStorage) {
+            const lsProduct = productLocalStorage[basket];
+            idProducts.push(lsProduct.productId);          
+        }
+        console.log(idProducts);
+
+        const orderDatas = {
+            contact : {
+                firstName: firstName.value,
+                lastName: lastName.value,
+                address: address.value,
+                city: city.value,
+                email: email.value,
+            },
+            products : idProducts,
+        }
+
+        const postOptions = {
+            method: "POST",
+            body: JSON.stringify(orderDatas),
+            headers: {
+                "Accept": "application/json",
+                "Content-type": "application/json",
+            },
+        }
+
+        sendToServer();
+        function sendToServer() {
+            fetch("http://localhost:3000/api/products/order", postOptions)
+            .then(function(res) {
+                return res.json();
+            })
+            .then(function(data) {
+                console.log(data);
+                localStorage.clear();
+                localStorage.setItem("orderId", data.orderId);
+                document.location.href = "./confirmation.html";
+            })
+            .catch (function(error) {
+                alert(error);
+                console.log("erreur");
+            })
+        }
+    })
+}
