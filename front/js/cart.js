@@ -257,7 +257,6 @@ function postForm() {
             const lsProduct = productLocalStorage[basket];
             idProducts.push(lsProduct.productId);          
         }
-        console.log(idProducts);
 
         const orderDatas = {
             contact : {
@@ -288,8 +287,7 @@ function postForm() {
             .then(function(data) {
                 console.log(data);
                 localStorage.clear();
-                localStorage.setItem("orderId", data.orderId);
-                document.location.href = "./confirmation.html";
+                document.location.href = `./confirmation.html?id=${data.orderId}`;
             })
             .catch (function(error) {
                 alert(error);
