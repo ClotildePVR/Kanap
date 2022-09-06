@@ -55,7 +55,7 @@ function selectedProduct(product) {
 }
 
 // Ajouter le produit au panier
-function registredProduct (basket) {
+function registerProduct (basket) {
     
     // Ecouter l'évènement au click du bouton "ajouter au panier"
     addToCartBtn.addEventListener("click", (event) => {
