@@ -12,7 +12,7 @@ fetch(productUrl)
     })
     .then(function(product) {
         selectedProduct(product);
-        registredProduct(product);
+        registerProduct(product);
     })
     .catch (function(error) {
         alert(error)
