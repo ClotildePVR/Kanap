@@ -252,11 +252,15 @@ function postForm() {
     const orderForm = document.getElementsByClassName("cart__order__form")[0];
     orderForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        let idProducts = [];
+        let dataProducts = [];
         for (let basket in productLocalStorage) {
             const lsProduct = productLocalStorage[basket];
-            idProducts.push(lsProduct.productId);          
+            let productQuantity = lsProduct.productQuantity;
+            for (let i = 1; i <= productQuantity; i ++) {
+                dataProducts.push(lsProduct.productId);
+            }
         }
+        console.log(dataProducts); 
 
         const orderDatas = {
             contact : {
@@ -266,7 +270,7 @@ function postForm() {
                 city: city.value,
                 email: email.value,
             },
-            products : idProducts,
+            products: dataProducts,
         }
 
         const postOptions = {
@@ -286,8 +290,8 @@ function postForm() {
             })
             .then(function(data) {
                 console.log(data);
-                localStorage.clear();
-                document.location.href = `./confirmation.html?id=${data.orderId}`;
+                /*localStorage.clear();
+                document.location.href = `./confirmation.html?id=${data.orderId}`;*/
             })
             .catch (function(error) {
                 alert(error);
